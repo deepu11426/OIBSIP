@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <center>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .close{
+                color:black;
+                right:20px;
+                position: absolute;
+                text-align: center;
+                width: 25px;
+                height: 25px;
+            }
+            body {
+                background: linear-gradient(-90deg, #f0af6f);
+                background-size: 300% 400%;
+                animation: gradient 15s ease infinite;
+            }
+
+            @keyframes gradient {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 50% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+            .close:hover{
+                cursor: pointer;
+                width:25px;
+                height:25px;
+                text-align:center;
+                background-color: rgb(241, 121, 121);
+            }
+            .span2{
+                padding-left: 40%;
+            }
+            .span2:hover{
+                cursor:pointer;
+                box-shadow:#a52e2e;
+            }
+            #container{
+                width:100%;
+                height:max-content;
+                display:flex;
+            }
+            #add_detail{
+                width:40%;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                position: fixed;
+            }
+            li{
+                padding-top:30px;
+            }
+            ul li{
+                width: 50%;
+                color: black;
+                padding:50px;
+                text-align: center;
+                justify-content:center;
+                border:1px solid black;
+                border-radius: 10%;
+                transition: width 1s;
+            }
+            ul li:hover{
+                width:65%;
+                background-color: rgb(242, 105, 105);
+            }
+            #listcontainer{
+                position: fixed;
+                width:60%;
+                height:max-content;
+                position:absolute;
+                left:40%;
+                right:0%;
+                overflow-x: auto;
+            }
+            table,tr,td{
+                text-align: center;
+                justify-content: center;
+            }
+            .description{
+                width:1px;
+                height:1px;
+                overflow: hidden;
+            }
+            .opendesc{
+                width:fit-content;
+                height:fit-content;
+            }
+            .opendesc:hover{
+                border-radius: 10%;
+                background: linear-gradient(-90deg,#b87c8d);
+                background-size: 400% 400%;
+                animation: gradient 15s ease infinite;
+            }
+            .completed{
+                text-decoration:line-through;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="add_detail">
+                <table>
+                    <tr>
+                        <td>
+                            <label>
+                                Enter the task to be done:
+                            </label>
+                        </td>
+                        <td>
+                            <input type="text" id="myInput"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                Add Content:
+                            </label>
+                        </td>
+                        <td>
+                            <textarea rows="20" cols="30" id="descr"></textarea><br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="button" onclick="additem()" value="add item"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="listcontainer">
+                <ul id="myUL" type="none">
+                </ul>
+            </div>
+        </div>
+        <script>
+            function additem(){
+                var li = document.createElement("li");
+                var inputValue = document.getElementById("myInput").value;
+                var t = document.createTextNode(inputValue);
+                li.appendChild(t);
+                var desc=document.createElement("div");
+                var descrip=document.getElementById("descr").value;
+                if (inputValue === '' || descrip==='') {
+                    alert("You must fill the blocks before adding");
+                } 
+                else {
+                    document.getElementById("myUL").appendChild(li);
+                }
+                var tt=document.createTextNode(descrip);
+                desc.appendChild(tt);
+                desc.className="description";
+                document.getElementById("myInput").value = "";
+                let span = document.createElement("SPAN");
+                var txt = document.createTextNode("\u00D7");
+                //span.className = "close";
+                var txt2='&#9989';
+                let span2=document.createElement("span");
+                span2.innerHTML=txt2;
+                span2.className="span2";
+                document.getElementById("descr").value='';
+                function hoverfunc(){
+                    span.appendChild(txt);
+                    desc.className="opendesc";
+                    span.className="close";
+                    var close = document.getElementsByClassName("close");
+                    var i;
+                    for (i = 0; i < close.length; i++) {
+                        close[i].onclick = function() {
+                            var div = this.parentElement;
+                            div.style.display = "none";
+                        }
+                    }
+                    for (i = 0; i < close.length; i++) {
+                        close[i].onclick = function() {
+                            var div = this.parentElement;
+                            div.style.display = "none";
+                        }
+                    }
+                }
+                function nonhoverfunc(){
+                    span.innerHTML="";
+                    span.className="dabididibidi";
+                    desc.className="description";
+                }
+                function lefhoverfunc(){
+                    setTimeout(hoverfunc,1500);
+                }
+                li.onmouseenter=lefhoverfunc;
+                li.onmouseleave=nonhoverfunc;
+                span2.onclick=clickfunc;
+                function clickfunc(event){
+                    if(span2.parentElement.style.textDecorationStyle==='initial'){
+                        alert("once completed task can't be uncompleted");
+                    }
+                    span2.parentElement.style="text-decoration: line-through;";
+                    span2.style="text-decoration:none";
+                }
+                li.appendChild(span2);
+                li.appendChild(span);
+                li.appendChild(desc);
+            }
+        </script>
+    </body>
+    </center>
+</html>
